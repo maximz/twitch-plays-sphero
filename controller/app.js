@@ -69,10 +69,10 @@ io.sockets.on('connection', function (socket) {
 			s.heading = relativeHeading;
 			s.roll(speed, relativeHeading, 1);
 			
-			// stop sphero after 2 seconds
+			// stop sphero after 3 seconds
 			setTimeout(function() {
 				s.roll(0,s.heading||0,0);
-			}, 2000);
+			}, 3000);
 			
 		}
   });
