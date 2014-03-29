@@ -57,6 +57,9 @@ class Irc:
 
     def recv(self, amount=1024):
         return self.sock.recv(amount)
+	
+    def send(self, msg): # send a message
+        return self.sock.send(msg)
 
     def recv_messages(self, amount=1024):
         data = self.recv(amount)

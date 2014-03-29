@@ -19,7 +19,7 @@ class Bot:
 
     def run(self):
         throttle_timers = {button:0 for button in config['throttled_buttons'].keys()}
-
+        self.irc.send('hello');
         while True:
             new_messages = self.irc.recv_messages(1024)
             
