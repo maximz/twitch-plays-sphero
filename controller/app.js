@@ -29,15 +29,10 @@ var prevHeading = 0;
 s.on('open', function() {
 	console.log('Sphero connected');
 	acceptingInput = true;
-	/*s.roll(128, 270, 1);
-	setTimeout(function() {
-		s.heading=180; // doesn't do anything
-	}, 500);*/
-	
 });
 
 
-// accept instructions from IRC chat bot
+// accept instructions from IRC chat bot via sockets
 
 var io = require('socket.io').listen(54321);
 
@@ -46,15 +41,39 @@ io.sockets.on('connection', function (socket) {
   socket.on('pyevent', function(data) {
 	console.log('pyevent' + data);
   });
-  socket.on('movesphero', function(data) {
+  socket.on('movesphero', function(direction) {
         if(acceptingInput) {
-			console.log('Moving Sphero with following command: '+data);
-			newHeading = parseInt(data) - prevHeading;
-			if(newHeading<0) {
-				newHeading += 360;
+			console.log('Moving Sphero in direction: '+direction);
+			
+			var newHeading = 0; 
+			switch (direction) {
+			  case 'LEFT':
+				newHeading = 270;
+				break;
+			  case 'RIGHT':
+				newHeading = 90;
+				break;
+			  case 'UP':
+				newHeading = 0;
+				break;
+			  case 'DOWN':
+				newHeading = 180;
+				break;
 			}
+			relativeHeading = newHeading - prevHeading; // persisting on our own in prevHeading, since not sure if sphero.heading persists the previous heading
+			if(relativeHeading < 0) {
+				relativeHeading += 360; // heading must be between 0 and 365
+			}
+			
 			var speed = 128;
-			s.roll(speed, newHeading, 1);
+			s.heading = relativeHeading;
+			s.roll(speed, relativeHeading, 1);
+			
+			// stop sphero after 2 seconds
+			setTimeout(function() {
+				s.roll(0,s.heading||0,0);
+			}, 2000);
+			
 		}
   });
 });
