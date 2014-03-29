@@ -1,98 +1,62 @@
 /* jshint node:true */
 /*
 
- Flash blue and red like a police siren
-
- This file is expected to be run something like this:
-
- $ node examples/repl.js
- S> .load examples/vege.js
- S> police(100, 500);
- S> repeat = true;
- S> police(100,500);
- S> repeat = false;
+ Run this file with node app.js, after pairing with the Sphero.
+ Accepts movement directions, then converts them to Sphero language and sends them out over Bluetooth.
 
  */
+var spheroPort = 'COM10'; // set this port properly!
 var spheron = require('spheron');
-//var sphero = spheron.sphero();
 
 var o = { resetTimeout:true, requestAcknowledgement:true };
 var s = spheron.sphero().resetTimeout(true).requestAcknowledgement(true);
 
+var connect = function() { 
+	// attempt to connect to Sphero
+	console.log('trying to connect');
+	s.open(spheroPort);
+}
+
 s.on('error', function(error) {
   console.log('Sphero error:', error);
+  acceptingInput = false;
+  setTimeout(connect, 1000); // reconnect in 1000 ms
 });
+
+var acceptingInput = false;
+var prevHeading = 0;
 
 s.on('open', function() {
-
-  console.log('Sphero connected');
-  police(100,500);
-  //repeat=true;
-  
-  //s.roll(128)
-s.heading = 270;
-s.roll(128, 270, 1);
-  
-  /*
-  var colourStart = 0x006600;
-var colourStop = 0x00FF00;
-  
-    s.write(spheron.commands.api.setStabalisation(false));
-
-  var step = 0;
-  var steps = 30*1;
-
-  function nextColour() {
-    var colour = toolbelt.colorStop(colourStart, colourStop, (Math.sin(step/steps)+1)/2);
-    s.write(spheron.commands.api.setRGB(colour, false, { resetTimeout:true}));
-    step++;
-    setTimeout(nextColour, 16);
-  }
-
-  nextColour();*/
-
-
+	console.log('Sphero connected');
+	acceptingInput = true;
+	/*s.roll(128, 270, 1);
+	setTimeout(function() {
+		s.heading=180; // doesn't do anything
+	}, 500);*/
+	
 });
 
-//s.open(dev);
-//var spheroPort = 'COM10';
-//sphero.open(spheroPort);
-s.open('COM10');
 
+// accept instructions from IRC chat bot
 
-var repeat = false;
+var io = require('socket.io').listen(54321);
 
-var police = function(delay1, delay2) {
-  s.setRGB(0x000000, false);
-  setTimeout(function() {
-    s.setRGB(0x0000FF);
-  }, delay1);
-  setTimeout(function() {
-    s.setRGB(0x000000, false);
-  }, delay1*2);
-  setTimeout(function() {
-    s.setRGB(0x0000FF, false);
-  }, delay1*3);
-  setTimeout(function() {
-    s.setRGB(0x000000, false);
-  }, delay1*4);
+// see http://stackoverflow.com/questions/6692908/formatting-messages-to-send-to-socket-io-node-js-server-from-python-client and https://gist.github.com/mattgorecki/1375505
+io.sockets.on('connection', function (socket) {
+  socket.on('pyevent', function(data) {
+	console.log('pyevent' + data);
+  });
+  socket.on('movesphero', function(data) {
+        if(acceptingInput) {
+			console.log('Moving Sphero with following command: '+data);
+			newHeading = parseInt(data) - prevHeading;
+			if(newHeading<0) {
+				newHeading += 360;
+			}
+			var speed = 128;
+			s.roll(speed, newHeading, 1);
+		}
+  });
+});
 
-  setTimeout(function() {
-    s.setRGB(0xFF0000, false);
-  }, delay1*5);
-  setTimeout(function() {
-    s.setRGB(0x000000, false);
-  }, delay1*6);
-  setTimeout(function() {
-    s.setRGB(0xFF0000, false);
-  }, delay1*7);
-  setTimeout(function() {
-    s.setRGB(0x000000, false);
-  }, delay1*8);
-
-  if (repeat) {
-    setTimeout(function() {
-      police(delay1, delay2);
-    }, delay2+delay1*8);
-  }
-};
+connect(); // initiate first connection
