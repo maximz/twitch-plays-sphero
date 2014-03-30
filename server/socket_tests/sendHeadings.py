@@ -69,4 +69,19 @@ if __name__ == "__main__":
 	test_direction('UP')
 	test_direction('DOWN')
 	
+	for i in range(5):
+		s.send("movesphero", 10*i)
+		print 'moving'
+		from time import sleep
+		sleep(2)
+	
+	
+	s.send("movesphero", "left")
+	from time import sleep
+	sleep(5)
+	s.send("movesphero", "down")
+	sleep(5)
+	s.send("movesphero", "left")
+	sleep(1)
+	s.send("movesphero", "down")
 	

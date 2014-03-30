@@ -59,11 +59,14 @@ io.sockets.on('connection', function (socket) {
 			  case 'DOWN':
 				newHeading = 180;
 				break;
+			  default:
+				newHeading = parseInt(direction);
+				break;
 			}
 			relativeHeading = newHeading - prevHeading; // persisting on our own in prevHeading, since not sure if sphero.heading persists the previous heading
 			
 			if(relativeHeading < 0) {
-				relativeHeading += 360; // heading must be between 0 and 365
+				relativeHeading += 360; // heading must be between 0 and 360
 			}
 			
 			console.log("relativeHeading " + relativeHeading);
@@ -71,7 +74,7 @@ io.sockets.on('connection', function (socket) {
 			
 			prevHeading = newHeading; // reset
 			
-			var speed = 64;
+			var speed = 32; // 64
 			s.heading = relativeHeading;
 			s.roll(speed, relativeHeading, 1);
 			
