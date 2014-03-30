@@ -1,13 +1,14 @@
 config = {
     
     'irc': {
-        'server': 'irc.twitch.tv',
-        'port': 6667
+        'server': 'abstract.slashnet.org',
+        'port': 6667,
+        'channel': 'sphero'
     },
 
     'account': {
-        'username': 'username',
-        'password': 'oauth:' # http://twitchapps.com/tmi/
+        'username': 'twitchsphero',
+        'password': 'put pass here'
     },
 
     'throttled_buttons': {
@@ -15,7 +16,11 @@ config = {
     },
 
     'misc': {
-        'chat_height': 13
-    }
+        'chat_height': 13,
+		'max_buffer': 250,
+    },
+	
+	'gamemode': 'anarchy',
+	#'gamemode': 'democracy'
 
 }
