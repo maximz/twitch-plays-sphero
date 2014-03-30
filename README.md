@@ -12,7 +12,7 @@ Built at HackPrinceton Spring 2014. AKA Roll with Friends, or Twitch Plays Maze.
 ```
 node controller/app.js & 	#  launches node server that sends Bluetooth commands to Sphero and accepts new headings via websockets from the Python chatbot
 source server/venv/Scripts/activate		# open virtualenv
-python server/serve.py 		# launch IRC chatbot
+python server/serve.py &		# launch IRC chatbot
 ```
 
 Then navigate to http://twitchplayssphero.herokuapp.com and send chat commands "up", "down", "left", or "right". I suggest first connecting to your Sphero with the official iPhone or Android app and calibrating it (moving the blue tail light to point towards you), so that maze directions correlate with chat commands.
@@ -30,7 +30,7 @@ See the readme's in each directory for more info.
 
 ### Architecture, design
 
-**Overview:**
+#### Overview:
 
 The webpage embed an IRC chat client (probably Slashnet's default webclient). Then we have a "Twitch Plays" bot sitting in that IRC chat room, and it aggregates user input. The aggregate input is sent to the "controller", which wraps it in a packet the Sphero can understand and sends it over Bluetooth the the paired Sphero.
 
@@ -39,23 +39,27 @@ When a user opens the page, the embedded chat client prompts for a username, and
 We need a way for the client page to also display your current influence score/ranking, or maybe have a leaderboard. Maybe also have a real-time diagram or camera feed to see where the Sphero is in the maze.
 
 
-**Democracy control:**
+#### Democracy control:
 
 We will have an influence algorithm:
 
- # Collect all inputs over input time T
- # Find most common input -- weigh by current influence of each voter
- # Increase influence rank of those who voted for the chosen input. (Reset everyone else's influence?)
+ 1. Collect all inputs over input time T
+ 2. Find most common input -- weigh by current influence of each voter
+ 3. Increase influence rank of those who voted for the chosen input. (Reset everyone else's influence?)
 
 Influence means that those who vote with the hivemind often have more control, so they can eventually start trolling the group.
 
-**Controls:**
+(This was the initial plan, but was not implemented in time.)
+
+#### Controls:
+
  * Move X units in Y direction
  * Move indefinitely in a direction
  * Spin in place
  * Return to start of maze -- hard to implement, but would be perfect for high-influence trolling. Maybe limit voting for this function to those who pass a min influence threshold
  * No tricks for now, too hard to implement
  
+(This was the initial control plan, but we ended up going with just "left", "right", "up", and "down".)
 
 ### Code organization
 
