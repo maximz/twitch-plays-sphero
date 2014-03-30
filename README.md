@@ -3,7 +3,7 @@
 
 "Twitch Plays Pokemon" for the physical world. The goal is to successfully guide a ball through a real-life maze. Type to control the ball's direction, and participate in Democracy or Anarchy modes. A fun twist on a classic game, merging virtual and physical realities.
 
-Built at HackPrinceton Spring 2014. Special thanks to Walker Davis for the great maze and for figuring out the Sphero with me, and to Shubhro Saha for his client design.
+Built at HackPrinceton Spring 2014. AKA Roll with Friends, or Twitch Plays Maze. Special thanks to Walker Davis for the great maze and for figuring out the Sphero with me, and to Shubhro Saha for his client design.
 
 ### Running the game
 
@@ -24,6 +24,8 @@ Alternate link for the web client: http://rollwithfriends.com.
  * In the `controller` directory, you'll need to install `node-serialport` and `spheron` via npm
  * In the `server` directory, run `pip install -r requirements.txt` from within your virtualenv
  * Deploy the heroku directory under `client` to heroku.
+ 
+See the readme's in each directory for more info.
 
 
 ### Architecture, design
