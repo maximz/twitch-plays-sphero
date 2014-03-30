@@ -3,7 +3,9 @@
 
 "Twitch Plays Pokemon" for the physical world. The goal is to successfully guide a ball through a real-life maze. Type to control the ball's direction, and participate in Democracy or Anarchy modes. A fun twist on a classic game, merging virtual and physical realities.
 
-Built at HackPrinceton Spring 2014. AKA Roll with Friends, or Twitch Plays Maze. Special thanks to Walker Davis for the great maze and for figuring out the Sphero with me, and to Shubhro Saha for his client design.
+Built at HackPrinceton Spring 2014. AKA Roll with Friends, or Twitch Plays Maze.
+
+Special thanks to team-members [Walker Davis](https://github.com/wcdavis) for the great maze and for figuring out the Sphero with me, to [Shubhro Saha](https://github.com/shbhrsaha) for his client design, and to [David Dohan](https://github.com/dmrd) and [Nihar Madhavan](https://github.com/niharm) for their help!
 
 ### Running the game
 
