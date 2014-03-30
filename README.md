@@ -1,6 +1,8 @@
 twitch-plays-sphero
 ===================
 
+"Twitch Plays Pokemon" for the physical world. The goal is to successfully guide a ball through a real-life maze. Type to control the ball's direction, and participate in Democracy or Anarchy modes. A fun twist on a classic game, merging virtual and physical realities.
+
 "Twitch plays" for Sphero! HackPrinceton Spring 2014
 
 
