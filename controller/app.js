@@ -65,6 +65,8 @@ io.sockets.on('connection', function (socket) {
 			}
 			relativeHeading = newHeading - prevHeading; // persisting on our own in prevHeading, since not sure if sphero.heading persists the previous heading
 			
+			relativeHeading = newHeading; // disabled the relative heading for now
+			
 			if(relativeHeading < 0) {
 				relativeHeading += 360; // heading must be between 0 and 360
 			}
@@ -74,14 +76,14 @@ io.sockets.on('connection', function (socket) {
 			
 			prevHeading = newHeading; // reset
 			
-			var speed = 32; // 64
+			var speed = 50; // 32
 			s.heading = relativeHeading;
 			s.roll(speed, relativeHeading, 1);
 			
 			// stop sphero after 3 seconds
-			setTimeout(function() {
+			/*setTimeout(function() {
 				s.roll(0,s.heading||0,0);
-			}, 3000);
+			}, 3000);*/
 			
 		}
   });
